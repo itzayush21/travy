@@ -1,0 +1,16 @@
+requests
+beautifulsoup4
+python-dotenv
+langchain
+langchain-core
+langchain-community
+langchain_groq
+langgraph
+tavily-python
+Flask
+Flask-SQLAlchemy
+SQLAlchemy
+supabase
+typing_extensions
+dotenv
+

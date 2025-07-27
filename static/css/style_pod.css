@@ -1,0 +1,124 @@
+@import url('https://fonts.googleapis.com/css?family=Inter:400,600&display=swap');
+*{margin:0;padding:0;box-sizing:border-box}
+body{
+  font-family:'Inter',sans-serif;background:#0e1f2f;color:#ececec;
+  min-height:100vh;padding-top:80px;
+}
+.navbar{
+  position:fixed;top:0;width:100%;height:60px;
+  display:flex;justify-content:space-between;align-items:center;
+  background:rgba(14,31,47,0.8);backdrop-filter:blur(10px);
+  padding:0 2rem;z-index:10;
+}
+.logo{font-size:1.5rem;font-weight:600;color:#00d9ff;}
+.nav-links{list-style:none;display:flex;gap:1.5rem;}
+.nav-links a{color:#ccc;text-decoration:none;font-weight:500;
+  transition:color .2s;}
+.nav-links a:hover{color:#00d9ff;}
+
+.dashboard{
+  display:grid;gap:1.5rem;
+  grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+  padding:1rem 2rem;
+}
+
+.card{
+  background:rgba(255,255,255,0.05);
+  border-radius:16px;overflow:hidden;
+  backdrop-filter:blur(8px);
+  box-shadow:0 8px 20px rgba(0,0,0,0.3);
+  position:relative;padding:1.5rem 1rem;
+  display:flex;flex-direction:column;gap:.8rem;
+  transition:transform .2s,box-shadow .2s;
+}
+.card:hover{
+  transform:translateY(-5px);box-shadow:0 12px 30px rgba(0,0,0,0.4);
+}
+.card-header{
+  display:flex;justify-content:space-between;align-items:center;
+}
+.card-header h2{
+  font-size:1.2rem;font-weight:600;color:#fff;
+}
+.status{
+  padding:.2rem .6rem;border-radius:12px;font-size:.8rem;
+  font-weight:600;
+}
+.status.live{background:#00ff88;color:#102120;}
+.status.upcoming{background:#ffc150;color:#3e2b00;}
+
+.edit-btn{
+  background:#00d9ff;color:#0e1f2f;
+  border:none;padding:.4rem .8rem;border-radius:12px;
+  font-size:.9rem;font-weight:600;
+  cursor:pointer;transition:background .2s;
+}
+.edit-btn:hover{background:#0099d6;}
+.edit-btn.small{padding:.2rem .6rem;font-size:.8rem;}
+
+.overview p{opacity:.85;font-size:.95rem;}
+.overview .card-header{margin-bottom:.5rem;}
+
+.avatars{
+  display:flex;align-items:center;gap:.5rem;
+}
+.avatars img{
+  width:40px;height:40px;border-radius:50%;
+  object-fit:cover;border:2px solid #00d9ff;
+}
+.add-more{
+  width:40px;height:40px;border-radius:50%;
+  background:rgba(0,217,255,0.3);
+  display:flex;justify-content:center;align-items:center;
+  font-weight:600;color:#fff;
+}
+
+.day-plan .day{
+  background:rgba(0,0,0,0.1);
+  border-radius:8px;
+  padding:.6rem .8rem;
+  margin-bottom:.6rem;
+}
+.day-plan h3{font-size:1rem;font-weight:600;}
+.day-plan p{opacity:.9;font-size:.9rem;}
+
+.checklist ul, .notifications ul, .documents ul{
+  list-style:none;margin-left:0;display:flex;flex-direction:column;gap:.4rem;
+}
+.checklist li{display:flex;align-items:center;gap:.5rem;font-size:.9rem;}
+.checklist input[type=checkbox]{transform:scale(1.1);}
+.documents li{opacity:.9;}
+
+.expense-bar{
+  background:rgba(255,255,255,0.1);
+  border-radius:50px;height:10px;
+  overflow:hidden;margin:0.6rem 0;
+}
+.filled{
+  background:#00d9ff;height:100%;
+  transition:width .5s;
+}
+
+.hotel p, .summary h2{margin-bottom:.4rem;font-size:1rem;}
+.hotel p:last-child{opacity:.9;font-style:italic;}
+
+.ai-chat .chatbox{
+  display:flex;gap:.5rem;margin-top:.4rem;
+}
+.ai-chat input{
+  flex:1;padding:.5rem .8rem;border:none;
+  border-radius:12px;outline:none;
+}
+.ai-chat button{
+  background:#00d9ff;border:none;
+  padding:.5rem;border-radius:12px;
+  display:flex;align-items:center;
+}
+.ai-chat img{
+  width:24px;height:24px;opacity:.85;
+}
+
+.countdown .big{
+  font-size:1.5rem;font-weight:700;
+}
+.notifications li, .documents li{font-size:.9rem;}

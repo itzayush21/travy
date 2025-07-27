@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>TravelPods AI</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+</head>
+<body>
+    <div class="floating-icons">
+  <i class="fas fa-star icon1"></i>
+  <i class="fas fa-bolt icon2"></i>
+  <i class="fas fa-heart icon3"></i>
+  <i class="fas fa-globe icon4"></i>
+  <i class="fas fa-magic icon5"></i>
+  <i class="fas fa-code icon6"></i>
+  <i class="fas fa-cloud icon7"></i>
+  <i class="fas fa-database icon8"></i>
+  <i class="fas fa-brain icon9"></i>
+  <i class="fas fa-lightbulb icon10"></i>
+</div>
+
+
+  <!-- Navbar -->
+  <nav class="navbar">
+    <div class="logo">🌍 TravelPods AI</div>
+    <ul class="nav-links">
+      <li><a href="/dashboard">Features</a></li>
+      <li><a href="/pod">Your Pods</a></li>
+      <li><a href="/login">Login</a></li>
+      <li><a href="/signup">Sign Up</a></li>
+
+    </ul>
+  </nav>
+
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="overlay"></div>
+    <div class="blobs">
+      <div class="blob blob1"></div>
+      <div class="blob blob2"></div>
+    </div>
+    <div class="hero-text" data-aos="fade-up">
+      <h1>Plan Smarter. Travel Together. Powered by AI.</h1>
+      <p>Create intelligent travel pods with your friends and let AI handle the rest.</p>
+      <a href="{{ url_for('user_info') }}" class="cta-button">Start Your Journey</a>
+    </div>
+  </section>
+
+  <!-- Destinations Section -->
+<section id="destinations" class="destinations">
+  <h2 data-aos="fade-up">🌍 Popular Destinations</h2>
+  <div class="destination-grid">
+    <div class="destination" data-aos="zoom-in">
+      <img src="{{ url_for('static', filename='img/pic1.png') }}" alt="Bali">
+      <div class="caption">Bali, Indonesia</div>
+    </div>
+    <div class="destination" data-aos="zoom-in" data-aos-delay="100">
+      <img src="{{ url_for('static', filename='img/pic1.png') }}" alt="Paris">
+      <div class="caption">Paris, France</div>
+    </div>
+    <div class="destination" data-aos="zoom-in" data-aos-delay="200">
+      <img src="{{ url_for('static', filename='img/pic1.png') }}" alt="Tokyo">
+      <div class="caption">Tokyo, Japan</div>
+    </div>
+    <div class="destination" data-aos="zoom-in" data-aos-delay="300">
+      <img src="{{ url_for('static', filename='img/pic1.png') }}" alt="Cape Town">
+      <div class="caption">Cape Town, South Africa</div>
+    </div>
+  </div>
+</section>
+
+
+  <!-- Features -->
+  <section id="features" class="features">
+    <h2 data-aos="fade-up">✨ What You Can Do</h2>
+    <div class="feature-cards">
+      <div class="card" data-aos="fade-up" data-aos-delay="100">
+        <img src="itinerary.png" alt="Itinerary">
+        <h3>AI Itineraries</h3>
+        <p>Get optimized travel plans based on your group & preferences.</p>
+      </div>
+      <div class="card" data-aos="fade-up" data-aos-delay="200">
+        <img src="packing.png" alt="Packing">
+        <h3>Smart Packing</h3>
+        <p>Receive AI-generated checklists for your destination.</p>
+      </div>
+      <div class="card" data-aos="fade-up" data-aos-delay="300">
+        <img src="assistant.png" alt="Assistant">
+        <h3>Location Chat</h3>
+        <p>Talk to a location-aware AI assistant anytime, anywhere.</p>
+      </div>
+      <div class="card" data-aos="fade-up" data-aos-delay="400">
+        <img src="expenses.png" alt="Expenses">
+        <h3>Group Expenses</h3>
+        <p>Track and split costs among all your travel mates.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="gradient-line"></div>
+    <p>&copy; 2025 TravelPods AI • Made with ❤️ for explorers</p>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
+  <script>AOS.init();</script>
+</body>
+</html>

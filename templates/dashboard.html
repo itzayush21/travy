@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>TravelPods Dashboard</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(to right, #2b1055, #7562db);
+      color: white;
+      min-height: 100vh;
+      padding: 2rem;
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    /* Floating Icons */
+    .floating-icons {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .floating-icons i {
+  position: absolute;
+  color: rgba(255, 255, 255, 0.08); /* More visible */
+  font-size: 2.4rem;
+  animation: float 6s infinite ease-in-out;
+}
+
+.floating-icons i:nth-child(1)  { top: 5%;   left: 3%;   animation-delay: 0s;  }
+.floating-icons i:nth-child(2)  { top: 10%;  left: 78%;  animation-delay: 1s;  }
+.floating-icons i:nth-child(3)  { top: 15%;  left: 18%;  animation-delay: 2s;  }
+.floating-icons i:nth-child(4)  { top: 20%;  left: 65%;  animation-delay: 3s;  }
+.floating-icons i:nth-child(5)  { top: 26%;  left: 40%;  animation-delay: 4s;  }
+.floating-icons i:nth-child(6)  { top: 32%;  left: 8%;   animation-delay: 5s;  }
+.floating-icons i:nth-child(7)  { top: 37%;  left: 85%;  animation-delay: 6s;  }
+.floating-icons i:nth-child(8)  { top: 42%;  left: 30%;  animation-delay: 7s;  }
+.floating-icons i:nth-child(9)  { top: 46%;  left: 53%;  animation-delay: 8s;  }
+.floating-icons i:nth-child(10) { top: 51%;  left: 11%;  animation-delay: 9s;  }
+.floating-icons i:nth-child(11) { top: 56%;  left: 72%;  animation-delay: 10s; }
+.floating-icons i:nth-child(12) { top: 61%;  left: 44%;  animation-delay: 11s; }
+.floating-icons i:nth-child(13) { top: 66%;  left: 25%;  animation-delay: 12s; }
+.floating-icons i:nth-child(14) { top: 71%;  left: 68%;  animation-delay: 13s; }
+.floating-icons i:nth-child(15) { top: 76%;  left: 15%;  animation-delay: 14s; }
+.floating-icons i:nth-child(16) { top: 81%;  left: 58%;  animation-delay: 15s; }
+.floating-icons i:nth-child(17) { top: 86%;  left: 35%;  animation-delay: 16s; }
+.floating-icons i:nth-child(18) { top: 91%;  left: 88%;  animation-delay: 17s; }
+.floating-icons i:nth-child(19) { top: 96%;  left: 7%;   animation-delay: 18s; }
+.floating-icons i:nth-child(20) { top: 98%;  left: 47%;  animation-delay: 19s; }
+.floating-icons i:nth-child(21) { top: 63%;  left: 91%;  animation-delay: 20s; }
+
+
+
+    .floating-icons i:hover {
+      color: #fff;
+      animation: pulse 1.5s infinite alternate;
+    }
+
+    @keyframes float {
+      0% { transform: translateY(0) rotate(0deg); }
+      50% { transform: translateY(-15px) rotate(10deg); }
+      100% { transform: translateY(0) rotate(0deg); }
+    }
+
+    @keyframes pulse {
+      0% { transform: scale(1); opacity: 1; }
+      50% { transform: scale(1.03); opacity: 0.9; }
+      100% { transform: scale(1); opacity: 1; }
+    }
+
+    @keyframes fadeSlideIn {
+      0% { opacity: 0; transform: translateY(40px); }
+      100% { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Navbar */
+    .navbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: rgba(255, 255, 255, 0.05);
+      padding: 1rem 2rem;
+      border-radius: 12px;
+      backdrop-filter: blur(10px);
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+      margin-bottom: 2rem;
+      position: relative;
+      z-index: 1;
+    }
+
+    .navbar h1 {
+      font-size: 1.8rem;
+      color: #e2d2ff;
+    }
+
+    .navbar .user {
+      font-size: 1rem;
+      color: #cfc2f4;
+    }
+
+    .section-title {
+      font-size: 2rem;
+      margin-bottom: 1.5rem;
+      color: #f5e9ff;
+      position: relative;
+      z-index: 1;
+      animation: fadeSlideIn 1.2s ease-in-out both;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 2rem;
+      position: relative;
+      z-index: 1;
+    }
+
+    .card {
+      background: rgba(255, 255, 255, 0.07);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 18px;
+      padding: 1.5rem;
+      backdrop-filter: blur(14px);
+      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.2);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .card:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 10px 24px rgba(0, 0, 0, 0.3);
+      animation: pulse 1s infinite alternate;
+    }
+
+    .card h3 {
+      font-size: 1.3rem;
+      margin-bottom: 0.6rem;
+      color: #f9edff;
+    }
+
+    .card p {
+      font-size: 0.95rem;
+      margin: 4px 0;
+      color: #d6c3f8;
+    }
+
+    .card i {
+      margin-right: 8px;
+      color: #a678d1;
+    }
+
+    .card button {
+      margin-top: 1rem;
+      padding: 0.7rem 1.2rem;
+      background: linear-gradient(to right, #9f75ff, #6e3dc4);
+      color: white;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: background 0.3s ease, transform 0.3s ease;
+    }
+
+    .card button:hover {
+      background: linear-gradient(to right, #bb88ff, #8552d4);
+      transform: scale(1.05);
+    }
+
+    .form-section {
+      margin-top: 4rem;
+      background: rgba(255, 255, 255, 0.06);
+      padding: 2rem;
+      border-radius: 15px;
+      max-width: 700px;
+      margin-left: auto;
+      margin-right: auto;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+      position: relative;
+      z-index: 1;
+      animation: fadeSlideIn 1.2s ease-in-out both;
+    }
+
+    .form-section h2 {
+      margin-bottom: 1.5rem;
+      color: #e8d8ff;
+    }
+
+    .form-section input,
+    .form-section button {
+      width: 100%;
+      padding: 0.8rem;
+      margin-bottom: 1rem;
+      border: none;
+      border-radius: 10px;
+      font-size: 1rem;
+      transition: all 0.3s ease-in-out;
+    }
+
+    .form-section input {
+      background: rgba(255, 255, 255, 0.08);
+      color: white;
+    }
+
+    .form-section input:focus {
+      background: rgba(255, 255, 255, 0.12);
+      transform: scale(1.02);
+    }
+
+    .form-section input::placeholder {
+      color: #ccc;
+    }
+
+    .form-section button {
+      background: linear-gradient(to right, #a678d1, #8e44ad);
+      color: white;
+      cursor: pointer;
+    }
+
+    .form-section button:hover {
+      background: linear-gradient(to right, #b88ff2, #9c4de0);
+      transform: scale(1.05);
+    }
+
+    .chatbot-btn {
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+      background: #a678d1;
+      color: white;
+      width: 58px;
+      height: 58px;
+      border-radius: 50%;
+      border: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.6rem;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+      transition: all 0.3s ease;
+      z-index: 1000;
+      animation: pulse 2.5s infinite ease-in-out;
+    }
+
+    .chatbot-btn:hover {
+      background: #b98af7;
+      transform: scale(1.1);
+    }
+
+    @media (max-width: 768px) {
+      .navbar {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="floating-icons">
+  <i class="fas fa-plane"></i>
+  <i class="fas fa-mountain"></i>
+  <i class="fas fa-umbrella-beach"></i>
+  <i class="fas fa-globe"></i>
+  <i class="fas fa-hiking"></i>
+  <i class="fas fa-suitcase-rolling"></i>
+  <i class="fas fa-ship"></i>
+  <i class="fas fa-hotel"></i>
+  <i class="fas fa-map-marked-alt"></i>
+  <i class="fas fa-binoculars"></i>
+  <i class="fas fa-compass"></i>
+  <i class="fas fa-passport"></i>
+<i class="fas fa-route"></i>
+<i class="fas fa-luggage-cart"></i>
+<i class="fas fa-taxi"></i>
+<i class="fas fa-bus"></i>
+<i class="fas fa-train"></i>
+<i class="fas fa-bicycle"></i>
+<i class="fas fa-map"></i>
+<i class="fas fa-cocktail"></i>
+<i class="fas fa-campground"></i>
+</div>
+
+
+  <div class="navbar">
+    <h1>🌍 TravelPods</h1>
+    <div>
+    <a href="/display" class="user">PROFILE</a> |
+    <a href="/logout" style="color:#ffe;">Logout</a>
+    </div>
+  </div>
+
+  <section>
+    <h2 class="section-title">Your Travel Pods</h2>
+    {% if pods %}
+    <div class="grid">
+      {% for pod in pods %}
+      <div class="card" style="--i: {{ loop.index }}">
+        <h3><i class="fas fa-users"></i> {{ pod.name }}</h3>
+        <p><i class="fas fa-map-marker-alt"></i> {{ pod.destination }}</p>
+        <p><i class="fas fa-calendar-alt"></i> {{ pod.start_date }} → {{ pod.end_date }}</p>
+        <a href="/pod/{{ pod.id }}"><button>Open Pod</button></a>
+      </div>
+      {% endfor %}
+    </div>
+    {% else %}
+    <p style="margin-top: 1rem; color: #f0e4ff;">You haven’t joined any pods yet. Get started below 👇</p>
+    {% endif %}
+  </section>
+
+  <div class="form-section">
+    <h2><i class="fas fa-plus-circle"></i> Create a New Pod</h2>
+    
+    <button type="submit"><a href="{{ url_for('create_pod') }}">Create Pod</a></button>
+
+  </div>
+
+  <div class="form-section" style="margin-top: 2rem;">
+    <h2><i class="fas fa-sign-in-alt"></i> Join an Existing Pod</h2>
+    <form method="POST" action="/join_pod">
+      <input type="text" name="invite_code" placeholder="Enter Invite Code" required />
+      <button type="submit">Join Pod</button>
+    </form>
+  </div>
+  {% if error %}
+    <p style="color: red;">{{ error }}</p>
+  {% endif %}
+
+  
+
+  <a href="https://t.me/YourTravelPodBot" target="_blank" class="chatbot-btn" title="Chat with PodBot">
+    <i class="fas fa-robot"></i>
+  </a>
+</body>
+</html>

@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Travel Profile</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html, body {
+      height: 100%;
+      background: linear-gradient(to right, #2b1055, #7562db);
+      font-family: 'Segoe UI', sans-serif;
+      color: white;
+      overflow-x: hidden;
+    }
+
+    .form-section {
+      margin-top: 4rem;
+      background: rgba(255, 255, 255, 0.06);
+      padding: 2.5rem;
+      border-radius: 18px;
+      max-width: 720px;
+      margin-left: auto;
+      margin-right: auto;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+      backdrop-filter: blur(14px);
+      animation: fadeSlideIn 1.2s ease-in-out both;
+    }
+
+    .form-section h2,
+    .form-section h4 {
+      margin-bottom: 1.2rem;
+      color: #e8d8ff;
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+    }
+
+    .form-section h2 {
+      font-size: 1.7rem;
+    }
+
+    .form-section h4 {
+      font-size: 1.2rem;
+      margin-top: 2rem;
+    }
+
+    .form-section form {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .form-section label {
+      margin: 0.6rem 0 0.3rem;
+      font-weight: 500;
+      color: #d6c3f8;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .form-section input {
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 12px;
+      padding: 0.7rem 1rem;
+      font-size: 1rem;
+      color: white;
+      transition: all 0.3s ease;
+      margin-bottom: 1rem;
+    }
+
+    .form-section input::placeholder {
+      color: #bbb;
+    }
+
+    .form-section input:focus {
+      background: rgba(255, 255, 255, 0.15);
+      outline: none;
+      transform: scale(1.02);
+      border-color: #b88ff2;
+    }
+
+    .form-section hr {
+      margin: 2rem 0;
+      border: 0;
+      height: 1px;
+      background: rgba(255, 255, 255, 0.2);
+    }
+
+    .form-section button {
+      margin-top: 1rem;
+      padding: 0.9rem;
+      background: linear-gradient(to right, #a678d1, #8e44ad);
+      color: white;
+      border: none;
+      border-radius: 12px;
+      font-size: 1.05rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: background 0.3s ease, transform 0.3s ease;
+    }
+
+    .form-section button:hover {
+      background: linear-gradient(to right, #b88ff2, #9c4de0);
+      transform: scale(1.05);
+    }
+
+    @keyframes fadeSlideIn {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @media (max-width: 768px) {
+      .form-section {
+        padding: 1.5rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="form-section">
+    <h2><i class="fas fa-user-circle"></i> Complete Your Travel Profile</h2>
+    <form action="/profile" method="POST">
+      <label><i class="fas fa-user"></i> Name:</label>
+      <input name="name" placeholder="Your full name" required>
+
+      <label><i class="fas fa-tint"></i> Blood Group:</label>
+      <input name="blood_group" placeholder="e.g. A+, O-">
+
+      <label><i class="fas fa-heartbeat"></i> Health Conditions:</label>
+      <input name="health_conditions" placeholder="e.g. Asthma, Diabetes">
+
+      <label><i class="fas fa-allergies"></i> Allergies:</label>
+      <input name="allergies" placeholder="e.g. Peanuts, Dust">
+
+      <label><i class="fas fa-utensils"></i> Food Preferences:</label>
+      <input name="food_preferences" placeholder="Veg, Vegan, etc.">
+
+      <label><i class="fas fa-plane-departure"></i> Travel Preferences:</label>
+      <input name="travel_preferences" placeholder="Window seat, No AC, etc.">
+
+      <hr>
+
+      <h4><i class="fas fa-phone-alt"></i> Emergency Contact</h4>
+
+      <label><i class="fas fa-user-friends"></i> Contact Name:</label>
+      <input name="emergency_name" placeholder="e.g. John Doe">
+
+      <label><i class="fas fa-users"></i> Relation:</label>
+      <input name="emergency_relation" placeholder="Parent, Friend, etc.">
+
+      <label><i class="fas fa-phone"></i> Phone:</label>
+      <input name="emergency_phone" placeholder="Emergency phone number">
+
+      <label><i class="fas fa-envelope"></i> Email:</label>
+      <input name="emergency_email" placeholder="Emergency email address">
+
+      <hr>
+
+      <label><i class="fas fa-language"></i> Preferred Language:</label>
+      <input name="language" placeholder="English, Hindi, etc.">
+
+      <button type="submit">Save & Continue</button>
+    </form>
+  </div>
+
+</body>
+</html>
