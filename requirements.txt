@@ -13,3 +13,4 @@ SQLAlchemy
 supabase
 typing_extensions
 dotenv
+gunicorn
