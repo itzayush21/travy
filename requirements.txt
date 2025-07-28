@@ -16,3 +16,4 @@ dotenv
 gunicorn
 markdown
 dotenv
+mysql-connector-python
