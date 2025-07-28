@@ -14,3 +14,4 @@ supabase
 typing_extensions
 dotenv
 gunicorn
+markdown
