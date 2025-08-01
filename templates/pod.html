@@ -422,7 +422,8 @@
       }
     }
 
-    .chat-output {
+    .chat-output,
+    .chat-output2 {
       max-height: 300px;
       /* or any height you want */
       overflow-y: auto;
@@ -432,6 +433,36 @@
       background-color: #381e54;
       border-radius: 8px;
       font-size: 0.95rem;
+    }
+
+    #note-form textarea {
+      width: 100%;
+      padding: 8px;
+      margin-top: 5px;
+      resize: vertical;
+    }
+
+    #note-form button {
+      margin-top: 5px;
+      background-color: #1976d2;
+      color: white;
+      border: none;
+      padding: 6px 12px;
+      cursor: pointer;
+    }
+
+    .note-entry {
+      margin-top: 8px;
+      padding: 6px;
+      border-bottom: 1px solid #ddd;
+    }
+
+    /* Make note display scrollable */
+    #note-list {
+      max-height: 200px;
+      /* Adjust as needed */
+      overflow-y: auto;
+      margin-top: 10px;
     }
   </style>
 
@@ -488,29 +519,43 @@
         <h2>Trip Other Details</h2>
         <button class="edit-btn small">Edit</button>
       </div>
-      <ul>
-        <li><strong>Description:</strong> {{ pod.description }}</li>
-        <li><strong>Visa Required:</strong> {{ pod.visa_required }}</li>
-        <li><strong>Travel Insurance:</strong> {{ pod.insurance_details }}</li>
-        <li><strong>Vaccinations:</strong> {{ pod.vaccination_requirements }}</li>
-        <li><strong>Local Emergency Numbers:</strong> {{ pod.local_emergency_info }}</li>
-        <li><strong>Currency Tips:</strong> {{ pod.currency_notes }}</li>
+      <ul style="list-style: none; padding: 0; margin: 0;">
+        <li style="margin-bottom: 8px;"><strong style="color: #22cee1;">Description:</strong> {{ pod.description }}</li>
+        <li style="margin-bottom: 8px;"><strong style="color: #22cee1;">Created By:</strong> {% for member in members
+          %}{%
+          if member.id == pod.created_by %}{{ member.name }}{% endif %}{% endfor %}</li>
+        <li style="margin-bottom: 8px;"><strong style="color: #22cee1;">Created At:</strong> {{
+          pod.created_at.strftime('%d
+          %b %Y') }}</li>
+        <li style="margin-bottom: 8px;"><strong style="color: #22cee1;">Estimated Budget:</strong> ₹{{
+          pod.estimated_budget
+          }}</li>
+        <li style="margin-bottom: 8px;"><strong style="color: #22cee1;">Invite Code:</strong> {{ pod.invite_code }}</li>
       </ul>
     </section>
 
-    <section class="card" style="--i:2">
-      <h2>Members</h2>
-      <div class="avatars">
+    <section class="card" style="--i:2; padding: 16px;">
+      <h2 style="margin-bottom: 12px;">Members</h2>
+      <div class="avatars" style="display: flex; flex-direction: column; gap: 10px;">
+
         {% for member in members[:3] %}
-        <a href="{{ url_for('view_profile', user_id=member.id) }}" title="{{ member.username }}">
-          <img src="{{ url_for('static', filename='img/avatar' ~ loop.index ~ '.png') }}" alt="{{ member.username }}">
-        </a>
+        <div style="display: flex; align-items: center; gap: 10px;">
+          <a href="{{ url_for('view_profile', user_id=member.id) }}" title="{{ member.name }}"
+            style="display: inline-block;">
+            <img src="{{ url_for('static', filename='img/avatar' ~ loop.index ~ '.png') }}" alt="{{ member.name }}"
+              style="width: 40px; height: 40px; border-radius: 50%; object-fit: cover;">
+          </a>
+          <span style="font-size: 16px; color: #e0e0e0;">{{ member.name }}</span>
+        </div>
         {% endfor %}
+
         {% if extra_count > 0 %}
-        <div class="add-more">+{{ extra_count }}</div>
+        <div class="add-more" style="margin-top: 10px; font-size: 15px; color: #666;">+{{ extra_count }} more</div>
         {% endif %}
+
       </div>
     </section>
+
 
 
     <section class="card weather" style="--i:3">
@@ -654,17 +699,49 @@
 
 
     <section class="card" style="--i:6">
-      <h2>Hotel Info</h2>
-      <p>🌴 Bali Sunset Retreat</p>
-      <p>Jalan Beachside No.5</p>
-      <p>बीचसाइड रोड, संख्या ५</p>
+      <div class="card-header">
+        <h2>Pod Notes</h2>
+        <button class="edit-btn small" onclick="document.getElementById('note-form').style.display='block'">Add</button>
+      </div>
+
+      <div id="note-list">
+        {% for note in notes %}
+          <div class="note-entry">
+            <p>
+              <strong>
+                {% for member in members %}
+                  {% if member.id == note.user_id %}
+                    {{ member.name }}
+                  {% endif %}
+                {% endfor %}
+              </strong><br>
+              <small>{{ note.created_at.strftime('%d %b %Y') }}</small>
+            </p>
+            <div style="border-left: 2px solid #b499ff; margin: 8px 0; padding-left: 10px;">
+              {{ note.note }}
+            </div>
+            <form method="POST" action="/pod/{{ pod.id }}/notes/delete/{{ note.id }}" style="display:inline;">
+              <button type="submit" class="edit-btn small" style="background: #ff4d4d; color: #fff;">Delete</button>
+            </form>
+          {% endfor %}
+
+        </div>
+
+        <div id="note-form" style="display:none;">
+          <textarea id="note-text" placeholder="Write a note..."></textarea>
+          <button onclick="submitNote()">Submit</button>
+        </div>
     </section>
 
 
+
     <section class="card ai-chat" style="--i:8">
-      <h2>AI Assistant</h2>
-      <div class="chatbox"><input placeholder="Ask me anything..." /><button><img
-            src="{{ url_for('static', filename='img/ai-icon.png') }}"></button></div>
+      <h2>Destination Research Assistant</h2>
+      <div class="chatbox">
+        <input placeholder="Ask me anything..." />
+        <button><img src="{{ url_for('static', filename='img/ai-icon.png') }}"></button>
+      </div>
+      <div class="chat-output" id="chat-output"></div> <!-- Scrollable area -->
     </section>
 
     <section class="card" style="--i:9">
@@ -687,7 +764,7 @@
         <input placeholder="Ask me anything..." />
         <button><img src="{{ url_for('static', filename='img/ai-icon.png') }}"></button>
       </div>
-      <div class="chat-output" id="chat-output"></div> <!-- Scrollable area -->
+      <div class="chat-output2" id="chat-output2"></div> <!-- Scrollable area -->
     </section>
 
     <section class="card" style="--i:11">
@@ -738,6 +815,8 @@
     </div>
   </footer>
 
+  
+
   <script>
     function toggleEdit() {
       const view = document.getElementById('itinerary-view');
@@ -761,7 +840,7 @@
       const message = input.value.trim();
       if (!message) return;
 
-      const chatSection = document.querySelector('#chat-output'); // Scrollable container
+      const chatSection = document.querySelector('#chat-output2'); // Scrollable container
       const responseDiv = document.createElement('div');
       responseDiv.innerHTML = `<p><b>You:</b> ${message}</p><p><i>Loading...</i></p>`;
       chatSection.appendChild(responseDiv);
@@ -778,6 +857,59 @@
       input.value = "";
       chatSection.scrollTop = chatSection.scrollHeight;
     });
+
+
+    document.querySelector('.chatbox button').addEventListener('click', async () => {
+      const input = document.querySelector('.chatbox input');
+      const message = input.value.trim();
+      if (!message) return;
+
+      const chatSection = document.querySelector('#chat-output'); // Scrollable container
+      const responseDiv = document.createElement('div');
+      responseDiv.innerHTML = `<p><b>You:</b> ${message}</p><p><i>Loading...</i></p>`;
+      chatSection.appendChild(responseDiv);
+      chatSection.scrollTop = chatSection.scrollHeight; // Scroll to bottom
+
+      const res = await fetch(`/pod/${podId}/help`, {
+        method: "POST",
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ message })
+      });
+      const data = await res.json();
+
+      responseDiv.innerHTML = `<p><b>You:</b> ${message}</p><p><b>Assistant:</b> ${data.response}</p>`;
+      input.value = "";
+      chatSection.scrollTop = chatSection.scrollHeight;
+    });
+
+
+
+
+    const userId = "{{ user_id }}";
+
+
+    async function submitNote() {
+      const text = document.getElementById('note-text').value.trim();
+      if (!text) return;
+
+      const res = await fetch(`/pods/${podId}/notes`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ user_id: userId, note: text })
+      });
+
+      if (res.ok) {
+        const data = await res.json();
+        appendNote(userName, text, data.created_at);
+        document.getElementById('note-text').value = '';
+        document.getElementById('note-form').style.display = 'none';
+      }
+    }
+
+
+  </script>
+
+
   </script>
 
 </body>

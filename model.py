@@ -110,6 +110,17 @@ class PodBudget(db.Model):
     description = db.Column(db.Text, nullable=False)
     created_by = db.Column(db.String(36))  # UUID of user
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
+    
+    
+class PodNote(db.Model):
+    __tablename__ = 'pod_notes'
+
+    id = db.Column(db.Integer, primary_key=True)
+    pod_id = db.Column(db.Integer, db.ForeignKey('pods.id', ondelete='CASCADE'), nullable=False)
+    user_id = db.Column(db.String(36), nullable=False)  # Supabase UUID
+    note = db.Column(db.Text, nullable=False)
+    created_at = db.Column(db.DateTime, default=datetime.utcnow)
+
 
 
 
