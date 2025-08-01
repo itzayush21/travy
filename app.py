@@ -4,8 +4,7 @@ from auth.auth_client import create_supabase_client
 from sqlalchemy import create_engine
 from flask_sqlalchemy import SQLAlchemy
 from config import Config
-from model import db,User, UserProfile, EmergencyContact, LanguagePreference, Pod, PodMember,PodItinerary, PodPacking, PodBudget
-
+from model import db,User, UserProfile, EmergencyContact, LanguagePreference, Pod, PodMember,PodItinerary, PodPacking,PodBudget, PodNote
 import random
 import string
 from agent.itnerary import generate_itinerary_from_prompt
@@ -13,6 +12,7 @@ from agent.i_update import refine_itinerary
 from agent.packing import generate_packing_list
 from agent.budget import generate_budget_plan
 from agent.destination_plan import research_reply
+from agent.local_assistant import governance_reply
 
 from functools import wraps
 from flask import make_response
@@ -266,27 +266,30 @@ def view_pod(pod_id):
 
     # Dummy logic for avatars
     extra_count = max(0, len(members) - 3)
-
+    user_id = session['user']['id']
     # Itinerary
     #itinerary = Itinerary.query.filter_by(pod_id=pod_id).order_by(Itinerary.day_number).all()
 
     # Expenses
     '''expenses = Expense.query.filter_by(pod_id=pod_id).all()
-    user_id = session['user']['id']
+    
     total_expense = sum(e.amount for e in expenses)
     user_expense = sum(e.amount for e in expenses if e.user_id == user_id)
     budget_progress = int((total_expense / pod.estimated_budget) * 100) if pod.estimated_budget else 0'''
     itinerary = PodItinerary.query.filter_by(pod_id=pod_id).first()
     packing= PodPacking.query.filter_by(pod_id=pod_id).first()
     budget= PodBudget.query.filter_by(pod_id=pod_id).first()
+    notes = PodNote.query.filter_by(pod_id=pod_id).order_by(PodNote.created_at.desc()).all()
     return render_template(
         'pod.html',
         pod=pod,
+        user_id=user_id,
         members=members,
         extra_count=extra_count,
         itinerary=itinerary, # type: ignore
         packing=packing,# type: ignore
-        budget=budget # type: ignore
+        budget=budget, # type: ignore
+        notes=notes, # type: ignore
         #total_expense=total_expense,
         #user_expense=user_expense,
         #budget_progress=budget_progress
@@ -571,8 +574,50 @@ def ask(pod_id):
     if not user_input:
         return jsonify({"response": "Please ask something."})
 
-    response_html = research_reply(user_id,detail)
+    response_html = research_reply(user_id,user_input,detail)
     return jsonify({"response": response_html})
+
+@app.route('/pod/<int:pod_id>/help', methods=['POST'])
+def help(pod_id):
+    user_input = request.json.get("message")
+    session_id = session.get("session_id")
+    
+    pod = Pod.query.get_or_404(pod_id)
+    description = pod.description or ''
+    destination = pod.destination or ''
+    from_date = pod.start_date.strftime("%d %b %Y") if pod.start_date else ''
+    to_date = pod.end_date.strftime("%d %b %Y") if pod.end_date else ''
+    pod_budget = pod.estimated_budget or 0
+
+    # Prompt for LLM
+    
+    detail=f"User is in {destination} from {from_date} to {to_date} with a budget of {pod_budget}. Trip summary: {description}"
+    user_id = session['user']['id']
+
+    if not user_input:
+        return jsonify({"response": "Please ask something."})
+
+    response_html = governance_reply(user_id,detail,user_input)
+    return jsonify({"response": response_html})
+
+
+@app.route('/pods/<int:pod_id>/notes', methods=['POST'])
+def add_note(pod_id):
+    data = request.get_json()
+    note = PodNote(
+        pod_id=pod_id,
+        user_id=data['user_id'],
+        note=data['note']
+    )
+    db.session.add(note)
+    db.session.commit()
+
+    return jsonify({
+        "message": "Note added",
+        "created_at": note.created_at.strftime("%Y-%m-%d %H:%M")
+    }), 201
+
+
 
 @app.route('/logout')
 def logout():
